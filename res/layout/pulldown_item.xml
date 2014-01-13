@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
-            android:layout_marginTop="30dip"
+            android:layout_marginTop="32dip"
             android:layout_toRightOf="@id/image"
             android:textColor="@color/userName"
             android:textSize="14sp" />

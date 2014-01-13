@@ -43,7 +43,8 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 	private PullDownView mPullDownView;
 	private List<Object> mStrings = new ArrayList<Object>();
 	private static ArrayList<AdView> adView = new ArrayList<AdView>();
-	public static int margins[]={5,5,5,5};
+	public static int margins[] = { 5, 5, 5, 5 };
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,14 +58,13 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 					@Override
 					public void initStatusSuccessed() {
 						// 广告初始化成功后,获取广告数据
-					    adView = Dianle.getShowViews(JokesMainActivity.this, 10,margins);
-						Log.i("gg",adView.size()+"");
+						adView = Dianle.getShowViews(JokesMainActivity.this,
+								10, margins);
 					}
 
 					@Override
 					public void initStatusFailed(String arg0) {
 						// TODO Auto-generated method stub
-						Log.i("gg","faild");
 					}
 				});
 		/*
@@ -103,27 +103,31 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 			public void run() {
 				/** 关闭 刷新完毕 ***/
 				mPullDownView.RefreshComplete();
+				String min = "so="
+						+ Utils.getPreferenceStr(JokesMainActivity.this, "min");
+				Log.i("aa",min);
+				GetJokesService.GetJokes(cesPage + "", "2", min,
+						new GetListener() {
 
-				GetJokesService.GetJokes(cesPage + "", "2", new GetListener() {
+							@Override
+							public void getSuccess(List<JokesModel> jokesList) {
+								// TODO Auto-generated method stub
+								cesPage++;
+								Message msg = mUIHandler
+										.obtainMessage(WHAT_DID_REFRESH);
+								msg.obj = jokesList;
+								msg.sendToTarget();
+							}
 
-					@Override
-					public void getSuccess(List<JokesModel> jokesList) {
-						// TODO Auto-generated method stub
-						cesPage++;
-						Message msg = mUIHandler
-								.obtainMessage(WHAT_DID_REFRESH);
-						msg.obj = jokesList;
-						msg.sendToTarget();
-					}
-
-					@Override
-					public void getFaild(String error) {
-						// TODO Auto-generated method stub
-						Message msg = mUIHandler.obtainMessage(WHAT_DID_ERROR);
-						msg.obj = error;
-						msg.sendToTarget();
-					}
-				});
+							@Override
+							public void getFaild(String error) {
+								// TODO Auto-generated method stub
+								Message msg = mUIHandler
+										.obtainMessage(WHAT_DID_ERROR);
+								msg.obj = error;
+								msg.sendToTarget();
+							}
+						});
 			}
 		}).start();
 	}
@@ -143,7 +147,10 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 				Utils.setPreferenceStr(JokesMainActivity.this, "count",
 						countPage + "");
 				mPullDownView.notifyDidMore();
-				GetJokesService.GetJokes(countPage + "", "1",
+				String max = "so="
+						+ Utils.getPreferenceStr(JokesMainActivity.this, "max");
+				Log.i("aa",max);
+				GetJokesService.GetJokes(countPage + "", "1", max,
 						new GetListener() {
 
 							@Override
@@ -177,6 +184,10 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 			case WHAT_DID_LOAD_DATA: {
 				if (msg.obj != null) {
 					List<Object> strings = (List<Object>) msg.obj;
+					Utils.setPreferenceStr(
+							JokesMainActivity.this,
+							"max",
+							((JokesModel) strings.get(strings.size()-1)).createTime);
 					if (!strings.isEmpty()) {
 						mStrings.addAll(strings);
 						if (adView.size() > 0) {
@@ -190,11 +201,13 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 			}
 			case WHAT_DID_REFRESH: {
 				List<Object> body = (List<Object>) msg.obj;
+				Utils.setPreferenceStr(JokesMainActivity.this, "min",
+						((JokesModel) body.get(0)).createTime);
 				for (Object str : body) {
 					mStrings.add(0, str);
 				}
 				if (adView.size() > 0) {
-					mStrings.add(0,adView.get(0));
+					mStrings.add(0, adView.get(0));
 					adView.remove(0);
 				}
 				contentAdapter.notifyDataSetChanged();
@@ -203,6 +216,8 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 
 			case WHAT_DID_MORE: {
 				List<Object> body = (List<Object>) msg.obj;
+				Utils.setPreferenceStr(JokesMainActivity.this, "max",
+						((JokesModel) body.get(body.size()-1)).createTime);
 				for (Object str : body) {
 					mStrings.add(str);
 				}
@@ -233,7 +248,9 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 
 			@Override
 			public void run() {
-				GetJokesService.GetJokes(count, "1", new GetListener() {
+				String max = "so="
+						+ Utils.getPreferenceStr(JokesMainActivity.this, "max");
+				GetJokesService.GetJokes(count, "1", max, new GetListener() {
 
 					@Override
 					public void getSuccess(List<JokesModel> jokesList) {

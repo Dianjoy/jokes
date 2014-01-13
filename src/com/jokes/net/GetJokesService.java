@@ -11,9 +11,9 @@ public class GetJokesService {
 	private final static String PRE_URL = "http://z.turbopush.com/";
 	private final static String GET_JOKES = "jokelist.php?p=";
 
-	public static void GetJokes(String page,String sort, GetListener jokesListener) {
+	public static void GetJokes(String page,String sort,String so, GetListener jokesListener) {
 		List<JokesModel> modelList = new ArrayList<JokesModel>();
-		String jsonJokes = NetRequest.connectToURL(PRE_URL + GET_JOKES, page+"&o="+sort);
+		String jsonJokes = NetRequest.connectToURL(PRE_URL + GET_JOKES, page+"&o="+sort+"&="+so);
 		try {
 			JSONObject jsonList = new JSONObject(jsonJokes);
 			JSONArray jsonArray = jsonList.getJSONArray("data");
