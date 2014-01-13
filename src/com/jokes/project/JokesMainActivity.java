@@ -43,7 +43,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 	private PullDownView mPullDownView;
 	private List<Object> mStrings = new ArrayList<Object>();
 	private static ArrayList<AdView> adView = new ArrayList<AdView>();
-
+	public static int margins[]={5,5,5,5};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,7 +57,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 					@Override
 					public void initStatusSuccessed() {
 						// 广告初始化成功后,获取广告数据
-						adView = Dianle.getShowViews(JokesMainActivity.this, 10);
+						adView = Dianle.getShowViews(JokesMainActivity.this, 10,margins);
 						Log.i("gg",adView.size()+"");
 					}
 
