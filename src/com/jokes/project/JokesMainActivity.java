@@ -57,7 +57,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 					@Override
 					public void initStatusSuccessed() {
 						// 广告初始化成功后,获取广告数据
-						adView = Dianle.getShowViews(JokesMainActivity.this, 10,margins);
+					    adView = Dianle.getShowViews(JokesMainActivity.this, 10,margins);
 						Log.i("gg",adView.size()+"");
 					}
 
