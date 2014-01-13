@@ -31,7 +31,7 @@ public class GetJokesService {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
-			jokesListener.getFaild("出现异常!");
+			jokesListener.getFaild("网络异常!");
 		}
 	}
 }

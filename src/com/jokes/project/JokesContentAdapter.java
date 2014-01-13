@@ -49,12 +49,7 @@ public class JokesContentAdapter extends BaseAdapter {
 		if(list.get(position) instanceof AdView)
 		{
 			AdView adView=(AdView)list.get(position);
-//			LayoutParams rl_down_params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-//			rl_down_params.leftMargin=10;
-//			rl_down_params.topMargin=10;
-//			rl_down_params.rightMargin=10;
 			adView.setBackgroundResource(R.drawable.listview_item);
-			//adView.setLayoutParams(rl_down_params);
 			return adView;	
 		}
 		if (convertView == null||convertView instanceof AdView) {
