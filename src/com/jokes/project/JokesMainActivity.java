@@ -1,5 +1,7 @@
 package com.jokes.project;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 	private List<Object> mStrings = new ArrayList<Object>();
 	private static ArrayList<AdView> adView = new ArrayList<AdView>();
 	public static int margins[] = { 5, 5, 5, 5 };
+	private int temp = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +104,23 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 
 			@Override
 			public void run() {
+				if (temp == 1) {
+					mPullDownView.RefreshComplete();
+					temp = 0;
+					return;
+				}
 				/** 关闭 刷新完毕 ***/
-				mPullDownView.RefreshComplete();
-				String min = "so="
-						+ Utils.getPreferenceStr(JokesMainActivity.this, "min");
-				Log.i("aa",min);
+
+				String min = null;
+				try {
+					min = "so="
+							+ URLEncoder.encode(Utils.getPreferenceStr(
+									JokesMainActivity.this, "min"), "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Log.i("aa", min);
 				GetJokesService.GetJokes(cesPage + "", "2", min,
 						new GetListener() {
 
@@ -117,6 +132,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 										.obtainMessage(WHAT_DID_REFRESH);
 								msg.obj = jokesList;
 								msg.sendToTarget();
+								mPullDownView.RefreshComplete();
 							}
 
 							@Override
@@ -126,6 +142,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 										.obtainMessage(WHAT_DID_ERROR);
 								msg.obj = error;
 								msg.sendToTarget();
+								mPullDownView.RefreshComplete();
 							}
 						});
 			}
@@ -146,10 +163,17 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 				}
 				Utils.setPreferenceStr(JokesMainActivity.this, "count",
 						countPage + "");
-				mPullDownView.notifyDidMore();
-				String max = "so="
-						+ Utils.getPreferenceStr(JokesMainActivity.this, "max");
-				Log.i("aa",max);
+
+				String max = null;
+				try {
+					max = "so="
+							+ URLEncoder.encode(Utils.getPreferenceStr(
+									JokesMainActivity.this, "max"), "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Log.i("aa", max);
 				GetJokesService.GetJokes(countPage + "", "1", max,
 						new GetListener() {
 
@@ -161,6 +185,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 										.obtainMessage(WHAT_DID_MORE);
 								msg.obj = jokesList;
 								msg.sendToTarget();
+								mPullDownView.notifyDidMore();
 							}
 
 							@Override
@@ -170,6 +195,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 										.obtainMessage(WHAT_DID_ERROR);
 								msg.obj = error;
 								msg.sendToTarget();
+								mPullDownView.notifyDidMore();
 							}
 						});
 			}
@@ -184,10 +210,12 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 			case WHAT_DID_LOAD_DATA: {
 				if (msg.obj != null) {
 					List<Object> strings = (List<Object>) msg.obj;
+					Utils.setPreferenceStr(JokesMainActivity.this, "min",
+							((JokesModel) strings.get(0)).createTime);
 					Utils.setPreferenceStr(
 							JokesMainActivity.this,
 							"max",
-							((JokesModel) strings.get(strings.size()-1)).createTime);
+							((JokesModel) strings.get(strings.size() - 1)).createTime);
 					if (!strings.isEmpty()) {
 						mStrings.addAll(strings);
 						if (adView.size() > 0) {
@@ -217,7 +245,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 			case WHAT_DID_MORE: {
 				List<Object> body = (List<Object>) msg.obj;
 				Utils.setPreferenceStr(JokesMainActivity.this, "max",
-						((JokesModel) body.get(body.size()-1)).createTime);
+						((JokesModel) body.get(body.size() - 1)).createTime);
 				for (Object str : body) {
 					mStrings.add(str);
 				}

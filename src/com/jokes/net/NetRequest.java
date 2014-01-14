@@ -10,6 +10,8 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.util.Log;
+
 public class NetRequest {
 	public static String connectToURL(String url, String params) {
 		return connectToURL(url, params, 60* 1000, 40 * 1000);//6 * 1000, 4 * 1000
@@ -21,7 +23,8 @@ public class NetRequest {
 		BufferedReader reader = null;
 		try {
 			String requestURL = url + params;
-			requestURL = requestURL.replaceAll(" ", "%20");
+			//requestURL = requestURL.replaceAll(" ", "%20");
+			Log.i("url",requestURL);
 			URL noeUrl = new URL(requestURL);
 			connection = (HttpURLConnection) noeUrl.openConnection();
 			connection.setRequestMethod("GET");

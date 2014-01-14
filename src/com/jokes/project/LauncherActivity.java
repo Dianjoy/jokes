@@ -1,6 +1,7 @@
 package com.jokes.project;
 
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -22,8 +23,7 @@ public class LauncherActivity extends Activity {
 		AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);
 		aa.setDuration(300);
 		view.startAnimation(aa);
-		final float scale = getResources().getDisplayMetrics().density;
-		int dd=px2sp(24,scale);//px2dip(this,90);
+		UmengUpdateAgent.update(this);
 		aa.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationEnd(Animation arg0) {
