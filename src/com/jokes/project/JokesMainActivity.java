@@ -235,7 +235,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 			case WHAT_DID_REFRESH: {
 				List<Object> body = (List<Object>) msg.obj;
 				Utils.setPreferenceStr(JokesMainActivity.this, "min",
-						((JokesModel) body.get(0)).createTime);
+						((JokesModel) body.get(body.size()-1)).createTime);
 				for (Object str : body) {
 					mStrings.add(0, str);
 				}
@@ -281,8 +281,15 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 
 			@Override
 			public void run() {
-				String max = "so="
-						+ Utils.getPreferenceStr(JokesMainActivity.this, "max");
+				String max = null;
+				try {
+					max = "so="
+							+ URLEncoder.encode(Utils.getPreferenceStr(
+									JokesMainActivity.this, "max"), "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				GetJokesService.GetJokes(count, "1", max, new GetListener() {
 
 					@Override

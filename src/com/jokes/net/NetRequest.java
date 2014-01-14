@@ -24,7 +24,7 @@ public class NetRequest {
 		try {
 			String requestURL = url + params;
 			//requestURL = requestURL.replaceAll(" ", "%20");
-			Log.i("url",requestURL);
+			//Log.i("url",requestURL);
 			URL noeUrl = new URL(requestURL);
 			connection = (HttpURLConnection) noeUrl.openConnection();
 			connection.setRequestMethod("GET");
