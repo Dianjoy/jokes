@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+	<string name="UMBreak_Network">更新失败，请检查网络状态</string>
+	<string name="UMUpdateTitle">应用更新了一个版本</string>
+	<string name="UMNewVersion">最新版本: </string>
+	<string name="UMUpdateContent">更新内容</string>
+	<string name="UMUpdateSize">更新大小: </string>
+	<string name="UMTargetSize">替换后大小: </string>
+	<string name="UMGprsCondition">(提示：不是在wifi状态)</string>
+	<string name="UMUpdateNow">现在更新</string>
+	<string name="UMAppUpdate">应用正在更新</string>
+	<string name="UMNotNow">以后更新</string>
+	<string name="UMIgnore">忽略此次</string>
+	<string name="UMToast_IsUpdating">更新中</string>
+	<string name="UMDialog_InstallAPK">最新版本已经下载，是否现在安装 ?</string>
+    
+</resources>

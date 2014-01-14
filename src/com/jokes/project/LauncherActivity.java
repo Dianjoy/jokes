@@ -23,7 +23,6 @@ public class LauncherActivity extends Activity {
 		AlphaAnimation aa = new AlphaAnimation(0.3f, 1.0f);
 		aa.setDuration(300);
 		view.startAnimation(aa);
-		UmengUpdateAgent.update(this);
 		aa.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationEnd(Animation arg0) {

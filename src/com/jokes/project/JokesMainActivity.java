@@ -26,6 +26,10 @@ import com.jokes.net.GetListener;
 import com.jokes.net.JokesModel;
 import com.jokes.net.Utils;
 import com.jokes.project.PullDownView.OnPullDownListener;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
 
 public class JokesMainActivity extends Activity implements OnPullDownListener,
 		OnItemClickListener {
@@ -52,6 +56,7 @@ public class JokesMainActivity extends Activity implements OnPullDownListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.jokesmainactivity);
+		UmengUpdateAgent.update(this);
 		// 注册广告所需的Service
 		Dianle.setCustomService(getPackageName() + ".MyService");
 		// 初始化广告
