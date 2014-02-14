@@ -9,7 +9,7 @@ import android.webkit.WebViewClient;
 import com.dlnetwork.Dianle;
 import com.dlnetwork.InitStatusListener;
 
-public class WebStream extends Activity implements InitStatusListener {
+public class WebStream extends Activity {
 	private WebView mWebView = null;
 
 	@Override
@@ -17,7 +17,7 @@ public class WebStream extends Activity implements InitStatusListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.web_ad);
 		// 初始化
-		Dianle.initNativeAds(this, "072cb4d9d9d5dfd23ed2981e5e33fe59", this);
+		Dianle.initWebConnect(this, "072cb4d9d9d5dfd23ed2981e5e33fe59");
 		// 注册付费
 		Dianle.setCustomService(getPackageName() + ".MyService");
 		mWebView = (WebView) findViewById(R.id.webview_ads);
@@ -34,17 +34,4 @@ public class WebStream extends Activity implements InitStatusListener {
 		});
 		mWebView.loadUrl("file:///android_asset/index.html");
 	}
-
-	@Override
-	public void initStatusFailed(String arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void initStatusSuccessed() {
-		// TODO Auto-generated method stub
-
-	}
-
 }
